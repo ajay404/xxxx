@@ -1,0 +1,149 @@
+Overview
+-------------------
+Definition
+Tight Coupling
+Loose Coupling
+Setter injection
+Constructor injection
+Wiring
+
+---------------------
+Definition
+-----------------Inversion of Control(IOC)
+
+IoC is also known as dependency injection (DI).
+IoC is all about Object dependencies.
+IoC allows developers to write loosely coupled components.
+Spring allows to decouple software layers by injecting a component’s dependencies at runtime rather than having them declared at compile time via importing and instantiating classes. 
+Provides centralized, automated configuration, managing and wiring of application Java objects.
+Java objects that are managed by the Spring IoC container are referred to as beans.
+Container responsibilities: 
+creating objects, 
+configuring objects, 
+calling initialization methods
+passing objects to registered callback objects
+All together form the object lifecycle which is one of the most important features.
+-----------------------------------------------------
+Tight Coupling & Loose Coupling
+----------------------------
+
+Tight coupling and loose coupling is the heart concept of Core Module.
+Loosely coupling is always a good programming practice.
+Loose Coupling is improved because you don't hard-code dependencies between layers and modules. Instead you configure them outside of the code. This makes it easy to swap in a new implementation of a service, or break off a module and reuse it elsewhere.
+Testability is improved because your Objects don't know or care what environment they're in as long as someone injects their dependencies. Hence you can deploy Objects into a test environment and inject Mock Objects for their dependencies with ease.
+---------------------------
+Tight Coupling----
+class Traveler
+{
+    Car c=new Car();
+    void startJourney()
+    {
+       c.move();
+    }
+}
+
+class Car
+{
+  void move()
+  {
+     // logic...
+  }
+}
+---------------------------------------------------
+Loose Coupling---------
+class Traveler{
+    Vehicle v;
+    public void setV(Vehicle v){
+      this.v = v;
+    }      
+ 
+    void startJourney(){
+       v.move();
+    }
+}
+
+Interface Vehicle{
+   void move();
+}
+
+class Car implements Vehicle{
+    public void move(){
+         // logic
+    }
+}
+
+class Bike implements Vehicle{
+    public void move(){
+         // logic
+    }
+}
+------------------------------
+Setter injection----
+In setter injection, the class must contain a setter method to get dependencies other wise spring container doesn’t inject the dependencies to dependent object
+Supporting dependency injection without having to modify the constructor of a legacy class.
+Allowing expensive resources or services to be created as late as possible and only when needed. 
+
+<bean id="exampleBean" class="examples.ExampleBean">
+  <!-- setter injection using the nested <ref/> element -->
+  <property name="beanOne"><ref bean="anotherExampleBean"/></property>
+  <!-- setter injection using the neater 'ref' attribute -->
+  <property name="beanTwo" ref="yetAnotherBean"/>
+  <property name="integerProperty" value="1"/>
+</bean>
+<bean id="anotherExampleBean" class="examples.AnotherBean"/>
+<bean id="yetAnotherBean" class="examples.YetAnotherBean"/>
+
+--------------------------------
+Constructor injection----
+Constructor Injection is the DI technique of passing an object's dependencies to its constructor.
+Constructor-based DI is accomplished by the container invoking a constructor with a number of arguments, each representing a dependency.
+
+<bean id="exampleBean" class="examples.ExampleBean">
+  <!-- constructor injection using the nested <ref/> element -->
+  <constructor-arg><ref bean="anotherExampleBean"/></constructor-arg>  
+  <!-- constructor injection using the neater 'ref' attribute -->
+  <constructor-arg ref="yetAnotherBean"/>  
+  <constructor-arg type="int" value="1"/>
+</bean>
+<bean id="anotherExampleBean" class="examples.AnotherBean"/>
+<bean id="yetAnotherBean" class="examples.YetAnotherBean"/>
+---------------------------------------------
+
+Wiring----
+Wiring is the process of injecting the dependencies of beans.
+In spring there are two types are wiring.
+Explicit wiring
+Implicit wiring OR Autowiring
+
+Annotation based autowiring.
+
+-----------------
+Explicit Wiring----
+Programmer  has to specify the bean dependencies explicitly then only spring container  will inject those dependencies.
+
+<beans>
+  <bean id="exampleBean" class="examples.ExampleBean">
+  <property name="beanOne" ref="firstBean"/>
+  <property name="beanTwo" ref="secondBean"/>
+</bean>
+</beans>
+-----------------------------------
+Implicit Wiring/Autowiring------
+Spring container can detect the bean dependency automatically and inject those dependencies.
+Below are the possible values of autowired attribute.
+no
+byName
+byType
+constructor
+autodetect
+
+------------------------------
+Annotation Based Autowiring----
+Enable context  namespace in spring configuration file.
+Add <context: annotation-config> in spring configuration file.
+Use @Autowired annotation for the beans.
+
+
+
+
+
